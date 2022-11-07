@@ -157,35 +157,34 @@ class Solution {
       return newGrid;
     }
 
-  public static int[][] moveUp(int[][] grid)
+ public static int[][] moveUp(int[][] grid)
+    {
+      int[][] newGrid = grid;
+      for(int i = 1; i < newGrid.length; i++)
       {
-    
-        int[][] newGrid = grid;
-        for(int j = 0; j < newGrid[0].length; j++)
+        for(int j = 0; j < newGrid.length; j++)           
         {
-          for(int i = newGrid.length - 1; i >= 0; i--)
+          if(newGrid[i][j] != 0)
+          {
+            for(int k = i; k > 0; k--)
             {
-              if(newGrid[i][j] != 0)
+              if(newGrid[k][j] == newGrid[k - 1][j])
               {
-                for(int k = i; k < newGrid[0].length; k++)
-                {
-                  if(newGrid[k][j] == newGrid[k - 1][j])
-                  {
-                    newGrid[k - 1][j] = newGrid[k][j] * 2;
-                    newGrid[k][j] = 0;
-                  }
-                  else if(newGrid[k - 1][j] == 0)
-                  {
-                    newGrid[k - 1][j] = newGrid[k][j]
-                    newGrid[k][j] = 0;
-                  }
-                  else continue;
-                }
+                newGrid[k - 1][j] = newGrid[k][j] * 2;
+                newGrid[k][j] = 0;
               }
+              else if(newGrid[k - 1][j] == 0)
+              {
+                newGrid[k - 1][j] = newGrid[k][j];
+                newGrid[k][j] = 0;
+              }
+              else continue;
             }
+          }
         }
-        return newGrid;
       }
+        return newGrid;
+    }
   
   public static int[][] moveDown(int[][] grid)
       {
