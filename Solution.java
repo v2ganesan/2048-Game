@@ -1,17 +1,3 @@
-/*
- * Click `Run` to execute the snippet below!
- */
-
-import java.io.*;
-import java.security.KeyStore.TrustedCertificateEntry;
-import java.util.*;
-import java.util.Random;
-/*
- * To execute Java, please define "static void main" on a class
- * named Solution.
- *
- * If you need more classes, simply define them inline.
- */
 class Solution {
   
   public static int[][] buildGrid(int size)
@@ -19,7 +5,6 @@ class Solution {
     int[][] theGrid = new int[size][size]; 
     return theGrid;
   }
-//hello
 
   public static int[][] fillGrid(int[][] grid)
   {
@@ -137,7 +122,7 @@ class Solution {
         {
           if(newGrid[i][j] != 0)
           {
-            for(int k = j; k < newGrid[0].length; k++)
+            for(int k = j; k > 0 ; k--)
             {
               if(newGrid[i][k] == newGrid[i][k-1])
               {
@@ -157,46 +142,18 @@ class Solution {
       return newGrid;
     }
 
- public static int[][] moveUp(int[][] grid)
-    {
-      int[][] newGrid = grid;
-      for(int i = 1; i < newGrid.length; i++)
+  public static int[][] moveUp(int[][] grid)
       {
-        for(int j = 0; j < newGrid.length; j++)           
-        {
-          if(newGrid[i][j] != 0)
-          {
-            for(int k = i; k > 0; k--)
-            {
-              if(newGrid[k][j] == newGrid[k - 1][j])
-              {
-                newGrid[k - 1][j] = newGrid[k][j] * 2;
-                newGrid[k][j] = 0;
-              }
-              else if(newGrid[k - 1][j] == 0)
-              {
-                newGrid[k - 1][j] = newGrid[k][j];
-                newGrid[k][j] = 0;
-              }
-              else continue;
-            }
-          }
-        }
-      }
-        return newGrid;
-    }
-  
-  public static int[][] moveDown(int[][] grid)
-      {
-    
+ 
         int[][] newGrid = grid;
-        for(int j = 0; j < newGrid[0].length; j++)
+        for(int i = 1; i < newGrid.length; i++)
         {
-          for(int i = 1; i < newGrid.length; i++)
+          //j = 0
+          for(int j = 0; j < newGrid.length; j++)           
             {
               if(newGrid[i][j] != 0)
               {
-                for(int k = i; k < newGrid[0].length; k++)
+                for(int k = i; k > 0; k--)
                 {
                   if(newGrid[k][j] == newGrid[k - 1][j])
                   {
@@ -205,7 +162,7 @@ class Solution {
                   }
                   else if(newGrid[k - 1][j] == 0)
                   {
-                    newGrid[k - 1][j] = newGrid[k][j]
+                    newGrid[k - 1][j] = newGrid[k][j];
                     newGrid[k][j] = 0;
                   }
                   else continue;
@@ -215,7 +172,36 @@ class Solution {
         }
         return newGrid;
       }
-
+   
+  public static int[][] moveDown(int[][] grid)
+      {
+        int[][] newGrid = grid;
+        for(int i = 0; i < newGrid.length - 1; i++)
+        {
+          for(int j = 0; j < newGrid.length; j++)           
+            {
+              if(newGrid[i][j] != 0)
+              {
+                for(int k = i; k < newGrid[0].length - 1; k++)
+                {
+                  if(newGrid[k][j] == newGrid[k + 1][j])
+                  {
+                    newGrid[k + 1][j] = newGrid[k][j] * 2;
+                    newGrid[k][j] = 0;
+                  }
+                  else if(newGrid[k + 1][j] == 0)
+                  {
+                    newGrid[k + 1][j] = newGrid[k][j];
+                    newGrid[k][j] = 0;
+                  }
+                  else continue;
+                }
+              }
+            }
+        }
+        return newGrid;
+      }
+      
 
   public static int[][] deepCopy(int[][] matrix) {
     int[][] newMatrix = new int[matrix.length][matrix[0].length];
@@ -270,12 +256,46 @@ class Solution {
       i--;
     }
   }
+
+    public static void testMoveDown() {
+    int[][] filledGrid = Solution.fillGrid(Solution.buildGrid(4));
+
+    int i = 5;
+
+    // filled_grid -> block in memory
+    // prev_grid = filled_grid
+    // prev_grid -> filled_grid
+
+    while (i != 0) {
+      System.out.println("filled grid before move down");
+      Solution.printGrid(filledGrid);
+      
+      int[][] filledGridDeepCopy = Solution.deepCopy(filledGrid);
+      int[][] moveRight = Solution.moveDown(filledGrid);
+
+      System.out.println("filled grid after move down");
+      Solution.printGrid(filledGrid);
+
+      if (Solution.isEqual(filledGridDeepCopy, moveRight)) {
+        System.out.println("cant move down");
+        break;
+      }
+      else {
+        Solution.insertNewBlock(filledGrid, "");  
+      }
+
+      System.out.println("filled grid after insert new block");
+      Solution.printGrid(filledGrid);
+      i--;
+    }
+  }
   
   public static void main(String[] args) {
 
-    Solution.testMoveRight();
+    //Solution.testMoveRight();
+    Solution.testMoveDown();
 
-    boolean same = false; 
+    //boolean same = false; 
   
   }
 }
@@ -283,8 +303,10 @@ class Solution {
 
 
 
-
+/**
 0 4 0 0 
 2 4 0 0 
 4 0 0 0
 8 2 0 0  
+
+  **/
