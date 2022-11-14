@@ -1,5 +1,4 @@
 # 2048-Game
-2048 clone
 
 If you want to run your java program on your computer without coderpad, follow these steps:
 - create a java file called `2048_game.java`
